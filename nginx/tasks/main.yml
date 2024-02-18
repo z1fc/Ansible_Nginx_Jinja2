@@ -14,23 +14,36 @@
   apt:
     name: nginx
     state: present
-    update_cache: true
+    update_cache: yes
 
-- name: Start Nginx, ensure it automatically starts on boot
+- name: Ensure Nginx is started and enabled
   service:
     name: nginx
-    enabled: true
     state: started
+    enabled: yes
 
+- name: Ensure /var/www/html directory exists
+  file:
+    path: /var/www/html
+    state: directory
 
-- name: Render index.html with Jinja2
-  template:
+- name: Install pip3 (Python3 pip)
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install Jinja2 package
+  pip:
+    name: Jinja2
+    state: present
+
+- name: Render Jinja2 template
+  ansible.builtin.template:
     src: templates/index.html.j2
     dest: /var/www/html/index.html
   vars:
     first_name: Yurii
     last_name: Belichenko
-
 
 - name: Restart Nginx if configuration changes
   meta: flush_handlers
