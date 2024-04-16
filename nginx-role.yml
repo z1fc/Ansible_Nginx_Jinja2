@@ -5,6 +5,6 @@
 
   roles:
     - role: nginx
-      system_manager: y.belichenko007@gmail.com
+      system_manager: z1fc
       
 
